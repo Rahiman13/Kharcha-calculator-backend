@@ -145,6 +145,10 @@ router.post('/register', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
+        // Determine the role based on the email
+        const role = email === 'rahimanshaik13@gmail.com' ? 'admin' : 'user';
+
+
         const newUser = new User({
             username,
             firstName,
@@ -153,7 +157,7 @@ router.post('/register', async (req, res) => {
             password: hashedPassword,
             monthlyData: [], // Initialize monthlyData as an empty array for new users
             totalBalance: 0, // Initialize totalBalance as 0 for new users
-            role: email.endsWith('@admin.com') ? 'admin' : 'user'
+            role: role
         });
 
         await newUser.save();
