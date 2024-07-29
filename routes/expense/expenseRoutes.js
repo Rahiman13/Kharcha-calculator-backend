@@ -145,4 +145,21 @@ router.delete('/delete-expense', async (req, res) => {
     }
 });
 
+// Get all expenses for all users
+router.get('/all-expenses', async (req, res) => {
+    try {
+        const users = await User.find();
+        const allExpenses = users.map(user => {
+            return {
+                username: user.username,
+                expenses: user.monthlyData.flatMap(monthData => monthData.data)
+            };
+        });
+
+        res.status(200).json(allExpenses);
+    } catch (error) {
+        handleError(res, error, 'Something went wrong');
+    }
+});
+
 module.exports = router;

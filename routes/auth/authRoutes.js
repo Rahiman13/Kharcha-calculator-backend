@@ -43,6 +43,17 @@ router.get('/user/username/:username', async (req, res) => {
     }
 });
 
+// Get user details
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        handleError(res, error, 'Server error');
+    }
+});
+
+
 // Create a new user
 router.post('/user', async (req, res) => {
     const { username, firstName, lastName, email, password, role } = req.body;
